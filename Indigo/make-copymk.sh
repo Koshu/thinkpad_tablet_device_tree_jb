@@ -10,3 +10,4 @@ do
 done
 
 cp tmp.mk $DIR/copy.mk
+rm tmp.mk
