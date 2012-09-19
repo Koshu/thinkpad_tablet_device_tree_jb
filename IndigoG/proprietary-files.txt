@@ -1,0 +1,12 @@
+bin/wwanloader
+bin/SierraImgMgr
+bin/SierraDMLog
+bin/init.dhcpcd
+bin/slqssdk
+copy.mk
+lib/hw/gps.f5521gw.so
+lib/libsierra-ril.so
+lib/libswims.so
+lib/libswiqmiapi.so
+lib/libwwanloader.so
+makeBlob.sh

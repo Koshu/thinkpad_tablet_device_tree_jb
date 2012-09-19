@@ -1,0 +1,42 @@
+#Compal begin
+/dev/akm8975_dev	0666	system	system
+/dev/akm8975_aot	0666	system	system
+/dev/kxtf9	0666	root	root
+#Compal end
+#frank 1202 begin
+/dev/ttyUSB*	0660	radio	radio
+/dev/qcqmi*		0660	radio	radio
+#frank 1202 end
+/dev/knvmap	0660	system	system
+/dev/nvmap	0666	system	system
+/dev/tegra_avp	0660	media	media
+/dev/tegra_rpc	0660	media	media
+/dev/tegra_sema	0660	media	media
+/dev/tegra_mediaserver	0660	media	media
+/dev/mt9p111	0660	media	camera
+/dev/mt9d115	0660	media	camera
+/dev/tegra_camera	0660	media	camera
+/dev/spdif*	0660	system	audio
+/dev/video0	0660	media	camera
+/dev/video1	0660	media	camera
+/dev/tegra_dc*	0660	system	system
+/dev/ttyACM*    0660    radio   system
+/dev/mpu        0640    system  system
+/dev/mpuirq     0640    system  system
+/dev/accelirq	0640	system	system
+/dev/timerirq	0640	system	system
+/dev/nvhdcp0    0666    system  system
+/dev/nvhdcp1    0666    system  system
+/dev/nvhost-ctrl	0666	root	root
+/dev/nvhost-display	0666	root	root
+/dev/nvhost-dsi	0666	root	root
+/dev/nvhost-gr2d	0666	root	root
+/dev/nvhost-gr3d	0666	root	root
+/dev/nvhost-isp	0666	root	root
+/dev/nvhost-mpe	0666	root	root
+/dev/nvhost-vi	0666	root	root
+/dev/tf_driver  0666    system  system
+/dev/ttyHS1	0664	root	system
+/dev/ttyHS2	0660	bluetooth	bluetooth
+/dev/ion	0666	system	system
+/dev/timerinfo	0444	system	system

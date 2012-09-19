@@ -1,0 +1,7 @@
+key 172   HOME              WAKE
+key 158   BACK              WAKE_DROPPED
+key 116   POWER             WAKE
+key 115   VOLUME_UP         WAKE_DROPPED
+key 114   VOLUME_DOWN       WAKE_DROPPED
+key 150   EXPLORER          WAKE
+key 248   AUTO_ROTATION     WAKE

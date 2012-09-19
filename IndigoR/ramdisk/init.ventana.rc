@@ -1,0 +1,379 @@
+import init.indigo.usb.rc
+
+on early-init
+    mount debugfs debugfs /sys/kernel/debug
+
+    export EXTERNAL_STORAGE /storage/sdcard0
+    export SECONDARY_STORAGE /storage/sdcard1
+    mkdir /storage 0050 system 1028
+    mkdir /storage/sdcard0 0000 system system
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
+
+    # make the pathes for the external media mounts
+    mkdir /storage/sdcard1 0000 system system
+    mkdir /storage/sdcard2 0000 system system
+    mkdir /storage/usbdisk0 0000 system system
+    mkdir /storage/usbdisk1 0000 system system
+
+# Compal Earvin 20110823 begin
+    mkdir /mnt/pia 0666 system system
+    mkdir /mnt/sec-tmp 0666 system system
+
+    mkdir /mnt/persdata 0666 system system
+    mkdir /persdata 0755 system system
+    mkdir /persdata/absolute 0755 system system
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1000000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 1000000
+# Compal Earvin 20110823 end
+
+on fs
+    mount ext4 /dev/block/mmcblk0p3 /system wait ro
+    setprop ro.crypto.tmpfs_options size=128m,mode=0771,uid=1000,gid=1000
+    mount ext4 /dev/block/mmcblk0p10 /data wait noatime nosuid nodev journal_async_commit,data=writeback,nodelalloc,errors=panic
+    mount ext4 /dev/block/mmcblk0p4 /cache wait noatime nosuid nodev journal_async_commit,data=writeback,nodelalloc,errors=panic
+
+# Compal Earvin 20110823 begin
+    mount ext4 /dev/block/mmcblk0p6 /mnt/pia wait noatime nosuid nodev journal_async_commit,data=writeback,nodelalloc,errors=panic
+    chown root system /mnt/pia
+    chmod 775 /mnt/pia
+    mount ext4 /dev/block/mmcblk0p9 /mnt/persdata wait noatime nosuid nodev journal_async_commit,data=writeback,nodelalloc,errors=panic
+# Compal Earvin 20110823 end
+
+# Compal mini 20110524 begin
+# FactoryReset
+    chmod 660 /dev/block/mmcblk0p5
+    chown root system /dev/block/mmcblk0p5
+# Compal mini 20110524 end
+
+on post-fs-data
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    mkdir /data/nvcam 0777 system system
+    chown dhcp dhcp /data/misc/dhcp
+
+    # we will remap this as /mnt/sdcard with the sdcard fuse tool
+    mkdir /data/media 0775 media_rw media_rw
+    chown media_rw media_rw /data/media
+
+    # Set indication (checked by vold) that we have finished this action
+    setprop vold.post_fs_data_done 1
+
+on boot
+# bluetooth
+    # power up/down interface
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/type
+    chown bluetooth system /sys/class/rfkill/rfkill0/state
+    chown bluetooth system /sys/class/rfkill/rfkill0/type
+
+    # Compal-JasonJC-20110906 begin
+    setprop ro.bt.bdaddr_path "/sys/EcControl/BTMAC"
+    # Compal-JasonJC-20110906 end
+
+# backlight
+    chown system system /sys/class/backlight/pwm-backlight/brightness
+
+# carry-0705 begin
+# GPIO state for Cradle
+    chown root system /sys/devices/virtual/gpio/gpio151/value
+# carry-0705 end
+
+# Sensor
+    #COMPAL_START
+    chmod 777 /dev/akm8975_dev
+    chmod 777 /dev/lightsensor
+    chown root root /dev/lightsensor
+    chmod 777 /dev/akm8975_aot
+    chown root system /sys/bus/i2c/devices/4-000f/selftest
+    chown root system /sys/bus/i2c/devices/4-000f/tap
+    chown root system /sys/bus/i2c/devices/4-000f/wake
+    chown root system /sys/bus/i2c/devices/4-000f/tilt
+    chown root system /sys/bus/i2c/devices/4-000f/enable
+    chown root system /sys/bus/i2c/devices/4-000f/delay
+    #COMPAL_END
+
+ # n-trig direct events
+    chmod 666 /dev/ntrig_de
+    chown root system /sys/spi_test/test
+    chown root system /sys/ntrig/get_bus_interface
+    chown root system /sys/ntrig/config_sensor
+    chown root system /sys/ntrig/touch_screen_border
+    chown root system /sys/ntrig/pen_status
+    chown root system /sys/ntrig/tracklib_status
+    chown root system /sys/ntrig/debug_print
+    chown root system /sys/spi_watchdog/watchdog
+
+#COMPAL_START
+#Permissions for System Server and daemons.
+    chown root system /sys/EcControl/BTMAC
+    chown root system /sys/EcControl/BatCapacity
+    chown root system /sys/EcControl/BatCtlDisable
+    chown root system /sys/EcControl/BatCtlEnable
+    chown root system /sys/EcControl/BatCurrent
+    chown root system /sys/EcControl/BatDesignCapacity
+    chown root system /sys/EcControl/BatStatus
+    chown root system /sys/EcControl/BatteryUpdateMode
+    chown root system /sys/EcControl/ChargeLED
+    chown root system /sys/EcControl/Coldboot
+    chown root system /sys/EcControl/RebootAfterEcUpdate
+    chown root system /sys/EcControl/ECRead
+    chown root system /sys/EcControl/ECWrite
+    chown root system /sys/EcControl/ECflashMode
+    chown root system /sys/EcControl/ECflashread
+    chown root system /sys/EcControl/ECflashwrite
+    chown root system /sys/EcControl/EcVer
+    chown root system /sys/EcControl/IMEIwithBarcode
+    chown root system /sys/EcControl/LEDAndroidOff
+    chown root system /sys/EcControl/ManufactureDate
+    chown root system /sys/EcControl/MicSwitch
+    chown root system /sys/EcControl/OffLED
+    chown root system /sys/EcControl/OriStsLED
+    chown root system /sys/EcControl/PowerLED
+    chown root system /sys/EcControl/RecoveryMode
+    chown root system /sys/EcControl/Reset
+    chown root system /sys/EcControl/Resume
+    chown root system /sys/EcControl/SerialNumber
+    chown root system /sys/EcControl/SerialNumberwithoutBarcode
+    chown root system /sys/EcControl/Shutdown
+    chown root system /sys/EcControl/SkuNumber
+    chown root system /sys/EcControl/Suspend
+    chown root system /sys/EcControl/ThreeGPower
+    chown root system /sys/EcControl/UUID
+    chown root system /sys/EcControl/WIFIMAC
+    chown root system /sys/EcControl/ECNameSpaceReadAddress
+    chown root system /sys/EcControl/ECNameSpaceWriteAddress
+    chown root system /sys/EcControl/PassCode
+    chown root system /sys/EcControl/BatLife
+    chown root system /sys/EcControl/BatLifeTime
+    chown root system /sys/EcControl/NBUsbChargingCurrent
+    chown root system /sys/EcControl/SysStatus
+    chown root system /sys/EcControl/MTMSN
+    chown root system /sys/EcControl/PlanarSN
+    chown root system /sys/EcControl/Brandname
+    chown root system /sys/EcControl/MFGBuildDate
+    chown root system /sys/EcControl/AssetNumber
+    chown root system /sys/EcControl/BoardID
+    chown root system /sys/EcControl/GPSPower
+    chown root system /sys/EcControl/DeviceStatus
+    chown root system /sys/EcControl/PsensorPower
+    chown root system /sys/EcControl/ChargerStatus
+    chown root system /sys/EcControl/UsbStatus
+    chown root system /sys/EcControl/BatLock
+    chown root system /sys/EcControl/FactoryStatus
+    chown root system /sys/EcControl/ECFwStatus
+    chown root system /sys/EcControl/EcWatchDogDisable
+    chown root system /sys/light/light_mode
+    chown root system /sys/spi_watchdog/watchdog
+    chown root system /sys/AudioCodec/Mic_Mute
+    chown root system /sys/AudioCodec/SNSD
+    chown root system /sys/EcControl/BatFullCapacity
+    chmod 660 /sys/devices/system/tegra2_statmon/sample_time
+    chmod 660 /sys/devices/system/tegra2_statmon/enable
+    chown root system /sys/diag/wp
+    chmod 660 /sys/diag/wp
+    chmod 0666 /cache/update.zip
+    chmod 0666 /cache/update.xml
+    chmod 0666 /cache/update-result.txt
+    chmod 666 /mnt/pia/ota-list.txt
+    chmod 664 /mnt/pia/dc_trace_log.txt
+    # darren-20111121
+    chown root system /sys/Keys/Test
+#COMPAL_END
+
+# Power management settings
+#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 216000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1000000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+#    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 216000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1000000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load 80
+    write /sys/module/cpuidle/parameters/lp2_in_idle 1
+
+# Touchscreen Config-UI interface
+   chmod 666 /sys/devices/platform/tegra-i2c.0/i2c-0/0-005a/debug_enable
+   chmod 666 /sys/devices/platform/tegra-i2c.0/i2c-0/0-005a/pause_driver
+   chmod 666 /sys/devices/platform/tegra-i2c.0/i2c-0/0-005a/slowscan_enable
+
+# Default Read Ahead value for sdcards
+    write /sys/block/mmcblk0/queue/read_ahead_kb 2048
+    write /sys/block/mmcblk1/queue/read_ahead_kb 2048
+
+# GPS init
+    write /sys/class/gpio/export 203
+    write /sys/class/gpio/gpio203/value 0
+    write /sys/class/gpio/gpio203/direction out
+    chown root system /sys/class/gpio/gpio203/value
+    chmod 0664 /sys/class/gpio/gpio203/value
+
+# kernel panic auto-reboot
+    write /proc/sys/kernel/panic 3
+
+# compal Indigo-Jason 20120322 for CTS android.permission.cts.FileSystemPermissionTest Begin
+    chown root system /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
+    chown root system /sys/devices/system/cpu/cpufreq/interactive/max_boost
+    chown root system /sys/module/cpu_tegra/parameters/cpu_user_cap
+    chmod 664 /sys/devices/system/cpu/cpufreq/interactive/go_maxspeed_load
+    chmod 664 /sys/devices/system/cpu/cpufreq/interactive/max_boost
+    chmod 664 /sys/devices/system/tegra_mc/enable
+    chmod 664 /sys/devices/system/tegra_mc/quantum
+    chmod 664 /sys/devices/tegradc.0/graphics/fb0/blank
+    chmod 664 /sys/devices/tegradc.1/graphics/fb1/blank
+    chmod 664 /sys/module/cpu_tegra/parameters/cpu_user_cap
+# compal Indigo-Jason 20120322 for CTS android.permission.cts.FileSystemPermissionTest End
+
+service wpa_supplicant /system/bin/wpa_supplicant \
+     -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+
+#   we will start as root and wpa_supplicant will switch to user wifi
+#   after setting up the capabilities required for WEXT
+#   user wifi
+#   group wifi inet keystore
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_p2p /system/bin/dhcpcd -aABKL
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_eth0 /system/bin/dhcpcd -ABKL -f/system/etc/dhcpcd/dhcpcd.conf
+    class main
+    disabled
+    oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_eth0 /system/bin/dhcpcd -n
+    disabled
+    oneshot
+
+# Enable NvCpuD, and set it to never poll config again
+on boot
+    setprop nvcpud.enabled true
+    setprop nvcpud.config_refresh_ms -1
+
+service nvcpud /system/bin/nvcpud
+    class main
+    disabled
+    user root
+    group root
+
+# Compal Earvin 20120309 begin
+on property:sys.cpu.late_start=1
+    start nvcpud
+
+on property:sys.audio.spec_gain=0
+    write /sys/AudioCodec/SNSD 0
+
+on property:sys.audio.spec_gain=1
+    write /sys/AudioCodec/SNSD 1
+
+on property:sys.cpu.default_min_freq=1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 216000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 216000
+# Compal Earvin 20120309 end
+
+# create virtual SD card at /mnt/sdcard, based on the /data/media directory
+# deamon will drop to user/group system/media_rw after initializing
+# underlying files in /data/media wil be created with user and group media_rw (1023)
+service sdcard /system/bin/sdcard /data/media 1023 1023
+    class late_start
+
+# bugreport is triggered by the VOLUME-DOWN and VOLUME-UP keys
+service bugreport /system/bin/dumpstate -d -v -o /data/storage/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+    keycodes 115 114
+
+#BCM
+service hciattach /system/bin/brcm_patchram_plus --enable_hci --scopcm=0,2,0,0,0,0,0,0,0,0 \
+    --baudrate 3000000 --patchramdir /etc/firmware/ --enable_lpm --tosleep=5000 --create_bdaddr /dev/ttyHS2
+    class main
+    user bluetooth
+    group system net_bt_admin
+    disabled
+
+# Start GPS daemon
+  on boot
+  service gps-daemon /system/bin/glgps_nvidiaTegra2android -c /system/etc/gps/gpsconfig.xml
+  user gps
+  socket gps seqpacket 0660 gps system
+  group system inet sdcard_rw
+  class late_start
+
+# Mount usb drives as /usbdrive. Generally usb drives are formatted with FAT
+# filesystem, so we support FAT as of now.
+#on device-added-/sys/block/sda
+#    mount vfat /dev/block/sda /mnt/usbdrive
+
+#on device-removed-/sys/block/sda
+#    umount /mnt/usbdrive
+
+# Recovery daemon: configure MSC partition
+service recoveryd /system/bin/recoveryd /dev/block/mmcblk0p5
+    disabled
+    class main
+    user root
+    group root
+    oneshot
+
+on property:sys.shutdown.requested=1recovery
+    start recoveryd
+
+#AKM compass
+service akmd /system/bin/akmd8975 -m 8
+    class main   
+    user system
+    group system
+
+#N-trig TrackLib
+    service TrackLibApp /system/bin/TrackLibApp
+    class main
+    user root
+
+# Prepare TF service
+service tf_daemon /system/bin/tf_daemon -storageDir /data/tf -d
+    disabled
+    class main
+    user root
+    group shell
+    oneshot
+
+# create filesystems if necessary
+service setup_fs /system/bin/setup_fs \
+        /dev/block/mmcblk0p10 \
+        /dev/block/mmcblk0p4
+    class core
+    user root
+    group root
+    oneshot
+
+# Create data directory and start service
+on property:tf.enable=y
+    mkdir /data/tf
+    start tf_daemon
+
