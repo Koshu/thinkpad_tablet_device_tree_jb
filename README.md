@@ -10,6 +10,8 @@ How to build CM10 for Thinkpad Tablet
 ====================================
 (original tutorial made by jbaiter)
 
+    Work in progress!!!
+
 1. Install Android SDK
 ----------------------
 Pretty self-explanatory, you will need the ``adb`` tool. Make sure you can
@@ -97,7 +99,7 @@ Next, configure the build environment and build the image::
 --------------------
 If everything went well, you should have a file similar to this::
 
-    ~/cm10_tpt/out/target/product/thinkpadtablet/update.cm-XXXXX-signed.zip
+    ~/cm10_tpt/out/target/product/thinkpadtablet/cm-10-XXXXXX-UNOFFICIAL-Indigo.zip
 
 Copy this file to the root of your internal or external SDCard
 and flash it using ClockworkRecovery.
