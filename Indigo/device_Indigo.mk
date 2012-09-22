@@ -52,10 +52,6 @@ PRODUCT_CHARACTERISTICS := tablet
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-# media mount paths / permissions
-PRODUCT_COPY_FILES += \
-    device/asus/tf101/patches/platform.xml:system/etc/permissions/platform.xml
-
 $(call inherit-product-if-exists, device/LENOVO/gapps/configfiles/copy.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
