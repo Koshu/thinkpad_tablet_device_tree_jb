@@ -5,8 +5,9 @@ The different devices
 *IndigoG -> 3G Gobi
 *IndigoR -> Recovery
 
-How to build CM10 for Thinkpad Tablet (original tutorial made by jbaiter)
+How to build CM10 for Thinkpad Tablet 
 ====================================
+(original tutorial made by jbaiter)
 
 1. Install Android SDK
 ----------------------
@@ -73,29 +74,29 @@ can connect to via ``adb``. Connect the device to your machine via USB and ensur
 that ``adb`` is working properly (i.e. ``adb shell`` should work).
 Then enter the following::
 
-   * cd ~/cm10_tpt/device/lenovo/thinkpadtablet
-   * ./extract-files.sh
+    cd ~/cm10_tpt/device/lenovo/thinkpadtablet
+    ./extract-files.sh
 
 6. Build CyanogenMod 9
 ----------------------
 First of all, check if there have been any updates since you last synchronized
 the source code::
 
-   * cd ~/cm10_tpt
-   * repo sync
+    cd ~/cm10_tpt
+    repo sync
 
 Next, configure the build environment and build the image::
 
-   * . build/envsetup.sh
-   * For wifi-only:	brunch cm_Indigo-userdebug
-   * For 3G-Ericsson:	brunch cm_IndigoF-userdebug
-   * For 3G-gobi: 	brunch cm_IndigoG-userdebug
+    . build/envsetup.sh
+    For wifi-only:	brunch cm_Indigo-userdebug
+    For 3G-Ericsson:	brunch cm_IndigoF-userdebug
+    For 3G-gobi: 	brunch cm_IndigoG-userdebug
 
 8. Install the image
 --------------------
 If everything went well, you should have a file similar to this::
 
-   * ~/cm9_tpt/out/target/product/thinkpadtablet/update.cm-XXXXX-signed.zip
+    ~/cm9_tpt/out/target/product/thinkpadtablet/update.cm-XXXXX-signed.zip
 
 Copy this file to the root of your internal or external SDCard
 and flash it using ClockworkRecovery.
