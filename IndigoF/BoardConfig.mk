@@ -25,6 +25,11 @@ TARGET_ARCH_VARIANT_CPU := cortex-a9
 TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 TARGET_BOOTLOADER_BOARD_NAME := Indigo
 
+# Kernel
+TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
+TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
@@ -69,3 +74,6 @@ TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_HAS_NO_SELECT_BUTTON := true
 # Use this flag if the board has a ext4 partition larger than 2gb
 BOARD_HAS_LARGE_FILESYSTEM := true
+
+# More recovery flags
+#TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p3; sync"
