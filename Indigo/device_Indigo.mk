@@ -52,7 +52,7 @@ PRODUCT_CHARACTERISTICS := tablet
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-$(call inherit-product-if-exists, device/LENOVO/gapps/configfiles/copy.mk)
+$(call inherit-product-if-exists, device/LENOVO/Indigo/gapps/copy.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_DEVICE := Indigo
