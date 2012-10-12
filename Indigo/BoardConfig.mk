@@ -26,9 +26,9 @@ TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 TARGET_BOOTLOADER_BOARD_NAME := Indigo
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
-TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+#TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
+#TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
 TARGET_PREBUILT_KERNEL := device/LENOVO/Indigo/kernel
 
 NEED_WORKAROUND_CORTEX_A9_745320 := true
@@ -76,4 +76,4 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # More recovery flags
-#TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p3; sync"
+TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p5; sync"

@@ -23,9 +23,20 @@ on early-init
     mkdir /mnt/persdata 0666 system system
     mkdir /persdata 0755 system system
     mkdir /persdata/absolute 0755 system system
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1000000
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 1000000
 # Compal Earvin 20110823 end
+
+
+#For CPu clocking
+    chmod 777	/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 777   /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
+    chmod 777	/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    chmod 777   /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 
+    chmod 777	/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+    chmod 777   /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor 
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 216
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 216
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1000000
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq 1000000
 
 on fs
     mount ext4 /dev/block/mmcblk0p3 /system wait ro
@@ -178,6 +189,7 @@ on boot
     chmod 0666 /cache/update-result.txt
     chmod 666 /mnt/pia/ota-list.txt
     chmod 664 /mnt/pia/dc_trace_log.txt
+    chmod 4755 /system/bin/tpt-touch-enabler
     # darren-20111121
     chown root system /sys/Keys/Test
 #COMPAL_END
@@ -351,9 +363,16 @@ service akmd /system/bin/akmd8975 -m 8
     group system
 
 #N-trig TrackLib
-    service TrackLibApp /system/bin/TrackLibApp
+service TrackLibApp /system/bin/TrackLibApp
     class main
     user root
+    disabled
+
+on property:touch.enable=1
+    start TrackLibApp
+
+on property:touch.enable=0
+    stop TrackLibApp
 
 # Prepare TF service
 service tf_daemon /system/bin/tf_daemon -storageDir /data/tf -d

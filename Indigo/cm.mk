@@ -1,8 +1,11 @@
-# Inherit device configuration
-$(call inherit-product, device/LENOVO/Indigo/device_Indigo.mk)
+# Inherit some common stuff.
+$(call inherit-product, build/target/product/full_base.mk)
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/LENOVO/Indigo/device_Indigo.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := Indigo
