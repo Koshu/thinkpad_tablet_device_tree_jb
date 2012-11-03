@@ -26,10 +26,10 @@ TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 TARGET_BOOTLOADER_BOARD_NAME := Indigo
 
 # Kernel
-#TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
-#TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
-#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
-TARGET_PREBUILT_KERNEL := device/LENOVO/Indigo/kernel
+TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
+TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
+TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+#TARGET_PREBUILT_KERNEL := device/LENOVO/Indigo/kernel
 
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
@@ -40,12 +40,21 @@ BOARD_KERNEL_PAGESIZE := 2048
 
 # Wifi related defines
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-BOARD_WLAN_DEVICE           := bcm4329
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/bcm4329.ko"
-WIFI_DRIVER_MODULE_NAME     := "bcm4329"
-WIFI_DRIVER_MODULE_ARG      := "iface_name=wlan0 firmware_path=/system/vendor/firmware/fw_bcm4329.bin nvram_path=/etc/nvram.txt"
+#BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+#BOARD_WLAN_DEVICE           := bcm4329
+#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
+#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/bcm4329.ko"
+#WIFI_DRIVER_MODULE_NAME     := "bcm4329"
+#WIFI_DRIVER_MODULE_ARG      := "iface_name=wlan0 firmware_path=/system/vendor/firmware/fw_bcm4329.bin nvram_path=/etc/nvram.txt"
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+BOARD_WLAN_DEVICE := bcmdhd
+WIFI_DRIVER_FW_PATH_PARAM := "/sys/module/bcmdhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_STA := "/system/vendor/firmware/fw_bcmdhd.bin"
+WIFI_DRIVER_FW_PATH_P2P := "/system/vendor/firmware/fw_bcmdhd_p2p.bin"
+WIFI_DRIVER_FW_PATH_AP := "/system/vendor/firmware/fw_bcmdhd_apsta.bin"
 
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_GPS := true

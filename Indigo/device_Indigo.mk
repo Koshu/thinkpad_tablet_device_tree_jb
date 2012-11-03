@@ -54,7 +54,11 @@ PRODUCT_PACKAGES := \
     hcitool \
     bttest \
     LiveWallpapersPicker \
-    tpt-touch-enabler
+    tpt-touch-enabler \
+    libdbus-tools-common \
+    lib_driver_cmd_bcmdhd \
+    dbus-monitor \
+    dbus-send
 
 PRODUCT_CHARACTERISTICS := tablet
 

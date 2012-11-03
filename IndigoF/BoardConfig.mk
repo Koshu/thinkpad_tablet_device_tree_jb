@@ -26,9 +26,10 @@ TARGET_ARCH_VARIANT_FPU := vfpv3-d16
 TARGET_BOOTLOADER_BOARD_NAME := Indigo
 
 # Kernel
-TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
-TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+#TARGET_KERNEL_SOURCE := kernel/LENOVO/Indigo
+#TARGET_KERNEL_CONFIG := tpt_kernel_defconfig
+#TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.4.3
+TARGET_PREBUILT_KERNEL := device/LENOVO/Indigo/kernel
 
 NEED_WORKAROUND_CORTEX_A9_745320 := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
@@ -59,7 +60,8 @@ BOARD_DATA_FILESYSTEM := ext4
 BOARD_CACHE_DEVICE := /dev/block/mmcblk0p4
 BOARD_CACHE_FILESYSTEM := ext4
 
-
+# Coustom Tools
+TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT := device/LENOVO/Indigo/releasetools/tpt_ota_from_target_files
 
 # fix this up by examining /proc/mtd on a running device
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
@@ -68,7 +70,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 805306368
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 13249806336
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-TARGET_PREBUILT_KERNEL := device/LENOVO/Indigo/kernel
 TARGET_USERIMAGES_USE_EXT4 := true
 
 BOARD_HAS_NO_SELECT_BUTTON := true
@@ -76,4 +77,4 @@ BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
 
 # More recovery flags
-#TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p3; sync"
+TARGET_RECOVERY_PRE_COMMAND := "echo 'boot-recovery' > /dev/block/mmcblk0p5; sync"

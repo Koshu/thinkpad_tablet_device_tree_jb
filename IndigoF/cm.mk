@@ -1,22 +1,22 @@
 ## Specify phone tech before including full_phone
 $(call inherit-product, vendor/cm/config/gsm.mk)
 
-## Specify phone tech before including full_phone
-$(call inherit-product, build/target/product/telephony.mk)
+# Inherit some common stuff.
+$(call inherit-product, build/target/product/full_base_telephony.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/LENOVO/IndigoF/overlay
 
-# Inherit device configuration
-$(call inherit-product, device/LENOVO/Indigo/device_Indigo.mk)
-
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_tablet_wifionly.mk)
+
+# Inherit device configuration
+$(call inherit-product, device/LENOVO/Indigo/device_Indigo.mk)
 
 # Inherit 3G
 $(call inherit-product, device/LENOVO/IndigoF/device_IndigoF.mk)
 
 ## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := Indigo
+PRODUCT_DEVICE := IndigoF
 PRODUCT_NAME := cm_IndigoF
 PRODUCT_BRAND := Lenovo
 PRODUCT_MODEL := ThinkPadTablet
